@@ -1,0 +1,66 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# Enable below if you want CI on commit to Integration
+#
+#trigger:
+#- Integration
+
+# Enable CI on PR to Integration
+#
+pr:
+- Integration
+
+pool:
+  name: Azure Pipelines
+  demands: azureps
+  vmImage: 'vs2017-win2016'
+
+steps:
+
+- task: AzurePowerShell@3
+  displayName: 'Azure PowerShell script: InlineScript'
+  inputs:
+    azureSubscription: 'DCD-ROBOTICS-SBOX'
+    ScriptType: 'InlineScript'
+    Inline: |
+      # You can write your azure powershell scripts inline here.
+      # You can also pass predefined and custom variables to this script using arguments
+      
+      pwd
+      
+      Get-ChildItem -Path  $(Build.SourcesDirectory)  -Recurse
+    azurePowerShellVersion: 'LatestVersion'
+
+- task: UniversalPackages@0
+  displayName: 'Universal publish'
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.SourcesDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: 'aa280614-cb7b-4d89-980f-a4e53d7a1896/386c8c21-748d-44e9-9a5a-03dc3b6e3cc9'
+    vstsFeedPackagePublish: 'sendgrid-config'
+    versionOption: 'minor'
+    packagePublishDescription: 'SendGrid Arm Templates and Parms'
+    verbosity: 'Debug'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'DCD-ROBOTICS-SBOX'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+     $vaultName='SendGridZoliPOCkeystore'
+     $resourceGroupName='SendGrid-POC'
+     $applicationName='Sendgrid-Zoli-POC'
+     $location='UK South'
+      
+      Echo "Creating vault $vaultName"
+      
+      
+      az keyvault create --name "$vaultname" --resource-group "$resourceGroupName" --location "$location"
+    addSpnToEnvironment: true
+    useGlobalConfig: true
+    failOnStandardError: true
