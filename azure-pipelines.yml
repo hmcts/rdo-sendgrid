@@ -5,7 +5,6 @@ pool:
   name: Azure Pipelines
   demands: azureps
   vmImage: 'vs2017-win2016'
-
 steps:
 - task: PowerShell@2
   displayName: 'Get NonProd Configuration Files'
@@ -27,4 +26,9 @@ steps:
        Write-Host $config
 - template: build/deploy.yml
   parameters:
-    param: ["filaname1","filaname2","filaname3"]
+    env: 'nonprod'
+    configs: $(nonprod-config)
+- template: build/deploy.yml
+  parameters:
+    env: 'prod'
+    configs: $(prod-config)
