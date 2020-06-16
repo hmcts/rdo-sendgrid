@@ -1,6 +1,8 @@
+# File: simple-param.yml
 parameters:
-  param : []
+- name: yesNo # name of the parameter; required
+  type: boolean # data type of the parameter; required
+  default: false
 
 steps:
-  - ${{ each filename in parameters.param }}
-    - script: 'echo ${{ filename  }}'
+- script: echo ${{ parameters.yesNo }}
