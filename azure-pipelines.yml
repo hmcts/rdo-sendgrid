@@ -27,8 +27,6 @@ steps:
 - template: build/deploy.yml
   parameters:
     env: 'nonprod'
-    configs: $(nonprod-config)
 - template: build/deploy.yml
   parameters:
     env: 'prod'
-    configs: $(prod-config)
