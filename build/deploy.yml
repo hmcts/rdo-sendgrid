@@ -4,5 +4,5 @@ parameters:
 steps:
 - script: |
     echo "deploy.yml:"
-    echo $(env)
+    echo ${{ parameters.env }}
     echo $(nonprod-config)
