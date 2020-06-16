@@ -14,5 +14,5 @@ steps:
         FOR /F "delims=|" %%I IN ('DIR "$(Build.SourcesDirectory)\config\nonprod*.json*" /B /O:D') DO SET NewestFile=%%I
         echo "##vso[task.setvariable variable=NewFileName]NewestFile"
 - template: build/deploy.yml
- parameters:
-   param: ["filaname1","filaname2","filaname3"]
+  parameters:
+    param: ["filaname1","filaname2","filaname3"]
