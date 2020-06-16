@@ -2,4 +2,4 @@ parameters:
   param : []
 
 steps:
-- script: echo ${{ parameters.yesNo }}
+- script: echo ${{ parameters.param }}
