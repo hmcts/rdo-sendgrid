@@ -31,3 +31,4 @@ steps:
 - template: build/deploy.yml
   parameters:
     env: 'prod'
+    config: ${prod-config}
