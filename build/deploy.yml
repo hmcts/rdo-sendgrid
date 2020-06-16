@@ -6,4 +6,4 @@ steps:
 - script: |
     echo "deploy.yml:"
     echo ${{ parameters.env }}
-    echo ${{ parameters.config }}
+    echo $(prod-config)
