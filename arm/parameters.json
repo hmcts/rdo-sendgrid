@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "devopsHMCTS"
+        },
+        "location": {
+            "value": "uksouth"
+        },
+        "plan_name": {
+            "value": "free"
+        },
+        "plan_publisher": {
+            "value": "Sendgrid"
+        },
+        "plan_product": {
+            "value": "sendgrid_azure"
+        },
+        "plan_promotion_code": {
+            "value": ""
+        },
+        "password": {
+            "value": null
+        },
+        "email": {
+            "value": "Zulfikar.bharmal@hmcts.net"
+        },
+        "firstName": {
+            "value": "Zulfikar"
+        },
+        "lastName": {
+            "value": "Bharmal"
+        },
+        "company": {
+            "value": "HMCTS"
+        },
+        "website": {
+            "value": "https://www.gov.uk/"
+        },
+        "acceptMarketingEmails": {
+            "value": "0"
+        },
+        "tags": {
+            "value": {}
+        }
+    }
+}
