@@ -2,7 +2,5 @@ parameters:
   env: ''
 
 steps:
-- script: |
-    echo "deploy.yml:"
-    echo ${{ parameters.env }}
-    echo $(nonprod-config)
+  - ${{each filename in variables.nonprod-config}}
+    - scripts: 'echo ${{ filename  }}'
