@@ -3,4 +3,4 @@ parameters:
 
 steps:
   - ${{ each filename in parameters.param }}
-    - scripts: 'echo ${{ filename  }}'
+    - script: 'echo ${{ filename  }}'
