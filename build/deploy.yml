@@ -4,8 +4,10 @@ steps:
 - script: |
     echo 'nonprod'
     echo $(nonprod-config)
+  displayName: 'Deploy NonProd Configuration'
   condition: eq('${{ parameters.env }}', 'nonprod')
 - script: |
     echo 'prod'
     echo $(prod-config)
+  displayName: 'Deploy Prod Configuration'
   condition: eq('${{ parameters.env }}', 'prod')
