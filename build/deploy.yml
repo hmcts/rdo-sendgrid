@@ -1,5 +1,6 @@
 parameters:
   env: ''
+  config: []
 
 steps:
 - script: |
