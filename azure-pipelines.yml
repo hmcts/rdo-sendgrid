@@ -12,13 +12,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-       Write-Host "Fetching config files"
        cd config/nonprod
-       $a=git ls-files
-       foreach ($i in $a) {
-          Write-Host "##vso[task.setvariable variable=filename]$i"
-          Write-Host "printing"$i
-       }  
+       $config=ls *.json
+       Write-Host "##vso[task.setvariable variable=nonprod-config]$config" 
 - template: build/deploy.yml
   parameters:
     param: ["filaname1","filaname2","filaname3"]
