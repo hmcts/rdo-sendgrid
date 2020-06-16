@@ -8,7 +8,7 @@ pool:
 
 steps:
 - task: CmdLine@2
-  displayName: 'Read NonProd Configuration'
+  displayName: 'Read NonProd Config'
   inputs:
     script: |
         FOR /F "delims=|" %%I IN ('DIR "$(Build.SourcesDirectory)\config\nonprod*.json*" /B /O:D') DO SET NewestFile=%%I
