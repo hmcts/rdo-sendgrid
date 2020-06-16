@@ -1,13 +1,15 @@
 parameters:
   env: ''
 steps:
-- script: |
-    echo 'nonprod'
-    echo $(nonprod-config)
-  displayName: 'Deploy NonProd Configuration'
-  condition: eq('${{ parameters.env }}', 'nonprod')
-- script: |
-    echo 'prod'
-    echo $(prod-config)
-  displayName: 'Deploy Prod Configuration'
-  condition: eq('${{ parameters.env }}', 'prod')
+- ${{ each config in variables.nonprod-config }}:
+  - script: |
+      echo 'nonprod'
+      echo $(nonprod-config)
+    displayName: 'Deploy NonProd Configuration'
+    condition: eq('${{ parameters.env }}', 'nonprod')
+- ${{ each config in variables.prod-config }}:
+  - script: |
+      echo 'prod'
+      echo $(prod-config)
+    displayName: 'Deploy Prod Configuration'
+    condition: eq('${{ parameters.env }}', 'prod')
