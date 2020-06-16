@@ -22,7 +22,7 @@ steps:
     script: |
        cd config/prod
        $config=ls *.json
-       Write-Host "##vso[task.setvariable variable=nonprod-config]$config"
+       Write-Host "##vso[task.setvariable variable=prod-config]$config"
        Write-Host $config
 - template: build/deploy.yml
   parameters:
