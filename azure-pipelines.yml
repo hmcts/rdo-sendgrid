@@ -9,4 +9,4 @@ pool:
 steps:
  - template: build/deploy.yml
    parameters:
-     yesNo: true
+     yesNo: ["filaname1","filaname2","filaname3"]
