@@ -1,6 +1,7 @@
 parameters:
-  param : []
+  env: ''
+  configs: []
 
 steps:
-  - ${{each filename in parameters.param}}
-    - scripts: 'echo ${{ filename  }}'
+- ${{ each config in parameters.configs }}:
+  - scripts: 'echo ${{ config  }}'
