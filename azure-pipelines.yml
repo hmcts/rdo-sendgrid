@@ -14,7 +14,16 @@ steps:
     script: |
        cd config/nonprod
        $config=ls *.json
-       Write-Host "##vso[task.setvariable variable=nonprod-config]$config" 
+       Write-Host "##vso[task.setvariable variable=nonprod-config]$config"
+- task: PowerShell@2
+  displayName: 'Read Prod Configuration'
+  inputs:
+    targetType: 'inline'
+    script: |
+       cd config/prod
+       $config=ls *.json
+       Write-Host "##vso[task.setvariable variable=nonprod-config]$config"        
 - template: build/deploy.yml
+  displayName: 'Apply NonProd Configuration'
   parameters:
     param: ["filaname1","filaname2","filaname3"]
