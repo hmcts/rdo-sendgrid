@@ -1,7 +1,9 @@
 parameters:
   env: ''
-  configs: []
 
 steps:
 - ${{ each config in parameters.configs }}:
   - scripts: 'echo ${{ config  }}'
+
+- script: |
+    echo $(nonprod-config)
