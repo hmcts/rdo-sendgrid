@@ -1,9 +1,16 @@
 parameters:
   env: ''
-  config: []
+
+variables:
+  b: $[ <expression> ]
 
 steps:
 - script: |
-    echo "deploy.yml:"
-    echo ${{ parameters.env }}
+    echo 'nonprod'
+    echo $(nonprod-config)
+  condition: eq('${{ parameters.env }}', 'nonprod')
+- script: |
+    echo 'prod'
     echo $(prod-config)
+  condition: eq('${{ parameters.env }}', 'prod')
+  
