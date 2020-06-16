@@ -26,6 +26,5 @@ steps:
        Write-Host "##vso[task.setvariable variable=nonprod-config]$config"
        Write-Host $config
 - template: build/deploy.yml
-  displayName: 'Apply NonProd Configuration'
   parameters:
     param: ["filaname1","filaname2","filaname3"]
