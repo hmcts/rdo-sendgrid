@@ -1,9 +1,5 @@
 parameters:
   env: ''
-
-variables:
-  b: $[ <expression> ]
-
 steps:
 - script: |
     echo 'nonprod'
@@ -13,4 +9,3 @@ steps:
     echo 'prod'
     echo $(prod-config)
   condition: eq('${{ parameters.env }}', 'prod')
-  
