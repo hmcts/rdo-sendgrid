@@ -2,7 +2,7 @@ parameters:
   env: ''
 
 steps:
-- ${{ each config in parameters.configs }}:
+- ${{ each config in variables.nonprod-config }}:
   - scripts: 'echo ${{ config  }}'
 
 - script: |
