@@ -18,7 +18,7 @@ steps:
        foreach ($i in $a) {
           Write-Host "##vso[task.setvariable variable=filename]$i"
           Write-Host "printing"$i
-      }  
+       }  
 - template: build/deploy.yml
   parameters:
     param: ["filaname1","filaname2","filaname3"]
