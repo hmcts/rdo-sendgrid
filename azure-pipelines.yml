@@ -23,7 +23,7 @@ steps:
 - task: AzurePowerShell@3
   displayName: 'Azure PowerShell script: InlineScript'
   inputs:
-    azureSubscription: 'DCD-ROBOTICS-SBOX'
+    azureSubscription: 'dcd-cnp-dev'
     ScriptType: 'InlineScript'
     Inline: |
       # You can write your azure powershell scripts inline here.
@@ -48,7 +48,7 @@ steps:
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'DCD-ROBOTICS-SBOX'
+    azureSubscription: 'dcd-cnp-dev'
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
