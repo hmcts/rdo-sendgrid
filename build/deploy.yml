@@ -1,0 +1,6 @@
+parameters:
+  param : []
+
+steps:
+  - ${{each filename in parameters.param}}
+    - scripts: 'echo ${{ filename  }}'
