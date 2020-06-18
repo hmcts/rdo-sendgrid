@@ -7,6 +7,12 @@ pool:
   vmImage: 'vs2017-win2016'
 steps:
 - task: PowerShell@2
+  displayName: 'Install PowerShell AZ'
+  inputs:
+    targetType: inline
+    script: |
+      Install-Module -Name Az -AllowClobber -Scope CurrentUser 
+- task: PowerShell@2
   displayName: 'Get NonProd Configuration Files'
   inputs:
     targetType: 'inline'
