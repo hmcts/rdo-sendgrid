@@ -1,15 +1,25 @@
 parameters:
   env: ''
 steps:
-- script: |
-    echo 'nonprod'
-    echo $(nonprod-config)
+- task: PowerShell@2
   displayName: 'Deploy NonProd Configuration'
+  inputs:
+    targetType: inline
+    arguments: # Optional
+    script: |
+      echo 'nonprod'
+      echo $(nonprod-config)
+      New-AzResourceGroup -Name $resourceGroupName -Location $location
+      New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `-TemplateFile arm/template.json  
   condition: eq('${{ parameters.env }}', 'nonprod')
-- script: |
-    echo 'prod'
-    echo $(prod-config)
-    New-AzResourceGroup -Name $resourceGroupName -Location $location
-    New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `-TemplateFile arm/template.json
+- task: PowerShell@2
   displayName: 'Deploy Prod Configuration'
+  inputs:
+    targetType: inline
+    arguments: # Optional
+    script: |
+      echo 'prod'
+      echo $(prod-config)
+      New-AzResourceGroup -Name $resourceGroupName -Location $location
+      New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `-TemplateFile arm/template.json  
   condition: eq('${{ parameters.env }}', 'prod')
