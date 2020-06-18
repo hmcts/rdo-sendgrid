@@ -2,12 +2,6 @@ parameters:
   env: ''
 steps:
 - task: PowerShell@2
-  displayName: 'Install PowerShell AZ'
-  inputs:
-    targetType: inline
-    script: |
-      Install-Module -Name Az -AllowClobber -Scope CurrentUser 
-- task: PowerShell@2
   displayName: 'Deploy NonProd Configuration'
   inputs:
     targetType: inline
