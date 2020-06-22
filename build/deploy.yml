@@ -9,6 +9,7 @@ steps:
       echo 'nonprod'
       echo 'new'
       $Text = $(nonprod-config).split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)
+      echo $Text
       Foreach ($i in $Text)
       {
         
