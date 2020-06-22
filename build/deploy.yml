@@ -12,6 +12,8 @@ steps:
       echo $(nonprod-config)
       Foreach ($i in $Configs)
       {
+        echo $1
+        echo 'loop'
         New-AzResourceGroup -Name $i-nonprod -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-nonprod `-TemplateFile arm/template.json 
       }
