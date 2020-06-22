@@ -7,6 +7,7 @@ steps:
     targetType: inline
     script: |
       echo 'nonprod'
+      echo 'new'
       echo $(nonprod-config)
       Foreach ($i in $(nonprod-config))
       {
