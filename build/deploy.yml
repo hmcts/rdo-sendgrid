@@ -6,10 +6,11 @@ steps:
   inputs:
     targetType: inline
     script: |
+      $text = $(nonprod-config)
       echo 'nonprod'
       echo 'new'
-      Write-Host "My ID is $(nonprod-config)"
-      $Text = $(nonprod-config).split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)
+      Write-Host "My ID is $text"
+      $Text = $text.split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)
       echo $Text
       Foreach ($i in $Text)
       {
