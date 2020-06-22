@@ -5,12 +5,16 @@ steps:
   displayName: 'Deploy NonProd Configuration'
   inputs:
     targetType: inline
-    arguments: # Optional
+    arguments:
+      -Configs ${{ parameters.env }}
     script: |
       echo 'nonprod'
       echo $(nonprod-config)
-      New-AzResourceGroup -Name $resourceGroupName -Location $location
-      New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `-TemplateFile arm/template.json  
+      Foreach ($i in $Configs)
+      {
+        New-AzResourceGroup -Name $i-nonprod -Location UKSouth
+        New-AzResourceGroupDeployment -ResourceGroupName $i-nonprod `-TemplateFile arm/template.json 
+      }
   condition: eq('${{ parameters.env }}', 'nonprod')
 - task: PowerShell@2
   displayName: 'Deploy Prod Configuration'
