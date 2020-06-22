@@ -5,14 +5,12 @@ steps:
   displayName: 'Deploy NonProd Configuration'
   inputs:
     targetType: inline
-    arguments:
-      -Configs ${{ parameters.env }}
     script: |
       echo 'nonprod'
       echo $(nonprod-config)
-      Foreach ($i in $Configs)
+      Foreach ($i in $(nonprod-config))
       {
-        echo $1
+        
         echo 'loop'
         New-AzResourceGroup -Name $i-nonprod -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-nonprod `-TemplateFile arm/template.json 
