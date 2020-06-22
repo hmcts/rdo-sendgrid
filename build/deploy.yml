@@ -8,7 +8,7 @@ steps:
     script: |
       echo 'nonprod'
       echo 'new'
-      echo $(nonprod-config)
+      echo $(nonprod-config).GetType();
       Foreach ($i in $(nonprod-config))
       {
         
