@@ -9,7 +9,7 @@ steps:
       $text = $(nonprod-config)
       echo 'nonprod'
       echo 'new'
-      Write-Host "My ID is $text"
+      Write-Host "My ID is $env:prod_config"
       $Text = $text.split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)
       echo $Text
       Foreach ($i in $Text)
