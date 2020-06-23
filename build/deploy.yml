@@ -6,18 +6,14 @@ steps:
   inputs:
     targetType: inline
     script: |
-      $text = $(nonprod-config)
-      echo 'nonprod'
-      echo 'new'
-      Write-Host "My ID is $env:prod-config"
-      $Text = $text.split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)
-      echo $Text
-      Foreach ($i in $Text)
+      $env = 'non-prod'
+      cd config/$env
+      $config=ls *.json
+      Foreach ($i in $config)
       {
-        
         echo 'loop'
-        New-AzResourceGroup -Name $i-nonprod -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-nonprod `-TemplateFile arm/template.json 
+        New-AzResourceGroup -Name $i-$env -Location UKSouth
+        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
       }
   condition: eq('${{ parameters.env }}', 'nonprod')
 - task: PowerShell@2
