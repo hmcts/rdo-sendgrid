@@ -13,26 +13,30 @@ steps:
     script: |
       Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force -AcceptLicense
 - task: PowerShell@2
-  displayName: 'Get NonProd Configuration Files'
+  displayName: 'Apply NonProd Configuration'
   inputs:
     targetType: 'inline'
     script: |
-       cd config/nonprod
-       $config=ls *.json
-       Write-Host "##vso[task.setvariable variable=nonprod-config]$config"
-       Write-Host $config
+      $env = 'non-prod'
+      cd config/$env
+      $config=ls *.json
+      Foreach ($i in $config)
+      {
+        echo 'loop'
+        New-AzResourceGroup -Name $i-$env -Location UKSouth
+        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+      }
 - task: PowerShell@2
-  displayName: 'Get Prod Configuration Files'
+  displayName: 'Apply Prod Configuration'
   inputs:
     targetType: 'inline'
     script: |
-       cd config/prod
-       $config=ls *.json
-       Write-Host "##vso[task.setvariable variable=prod-config]$config"
-       Write-Host $config
-- template: build/deploy.yml
-  parameters:
-    env: 'nonprod'
-- template: build/deploy.yml
-  parameters:
-    env: 'prod'
+      $env = 'prod'
+      cd config/$env
+      $config=ls *.json
+      Foreach ($i in $config)
+      {
+        echo 'loop'
+        New-AzResourceGroup -Name $i-$env -Location UKSouth
+        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+      }
