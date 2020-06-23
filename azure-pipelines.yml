@@ -18,7 +18,7 @@ steps:
     targetType: 'inline'
     script: |
       $env = 'non-prod'
-      cd config/$env
+      cd $SourcesDirectory/config/$env
       $config=ls *.json
       Foreach ($i in $config)
       {
