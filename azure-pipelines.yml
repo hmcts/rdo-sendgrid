@@ -19,28 +19,26 @@ steps:
     workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'nonprod'
-      cd config
-      $tg = Get-ChildItem
-      Write-Host $tg
-      cd $env
+      cd config\$env
       $config = Get-ChildItem
       Write-Host $config
       Foreach ($i in $config)
       {
         New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+        New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
 - task: PowerShell@2
   displayName: 'Apply Prod Configuration'
   inputs:
     targetType: 'inline'
+    workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'prod'
-      cd config/$env
-      $config=ls *.json
+      cd config\$env
+      $config = Get-ChildItem
+      Write-Host $config
       Foreach ($i in $config)
       {
-        echo 'loop'
         New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+        New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
