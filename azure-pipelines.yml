@@ -17,7 +17,6 @@ steps:
       $env = 'nonprod'
       cd config\$env
       $config = Get-ChildItem
-      Write-Host $config
       Foreach ($i in $config)
       {
         New-AzResourceGroup -Name $i-$env -Location UKSouth
