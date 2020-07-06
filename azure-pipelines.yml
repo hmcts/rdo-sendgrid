@@ -13,12 +13,11 @@ steps:
     scriptType: 'inlineScript'
     azurePowerShellVersion: 'latestVersion'
     script: |
+      Select-AzSubscription -SubscriptionId $subscriptionId
       $env = 'nonprod'
       $config = Get-ChildItem -Path config\$env\*.json
-      Write-Output $env
       Foreach ($i in $config)
       {
-        Write-Output $i
         New-AzResourceGroup -Name $i-$env -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
