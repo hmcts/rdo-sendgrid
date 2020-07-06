@@ -7,13 +7,19 @@ steps:
     targetType: inline
     script: |
       $env = 'non-prod'
-      cd config/$env
-      $config=ls *.json
-      Foreach ($i in $config)
+      $configFiles = Get-ChildItem -Path config\$env\*.json -Recurse
+      Foreach ($file in $policyFiles)
       {
-        echo 'loop'
-        New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+        $parentFolder = Split-Path (Split-Path "$file.FullName" -Parent) -Leaf
+        try {
+            Write-Host '$env SendGrid for '$file.FullName
+            New-AzResourceGroup -Name $i-$env -Location UKSouth
+            New-AzResourceGroupDeployment -ResourceGroupName $i-$env `-TemplateFile arm/template.json 
+            Write-Host 'Success' -ForegroundColor Green
+        } catch {
+            Write-Host 'Error: '$Error[0] -ForegroundColor Red
+        }
+
       }
   condition: eq('${{ parameters.env }}', 'nonprod')
 - task: PowerShell@2
