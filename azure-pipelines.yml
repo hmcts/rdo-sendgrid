@@ -15,15 +15,6 @@ steps:
     azurePowerShellVersion: latestVersion
     script: |
       Write-Host 'hello'
-      $env = 'nonprod'
-      cd config\$env
-      $config = Get-ChildItem
-      Foreach ($i in $config)
-      {
-        Write-Host 'world'
-        New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
-      }
 - task: AzurePowerShell@4
   displayName: 'Apply Prod Configuration'
   inputs:
