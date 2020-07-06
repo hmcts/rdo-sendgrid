@@ -9,7 +9,7 @@ steps:
 - task: AzurePowerShell@4
   displayName: 'Apply NonProd Configuration'
   inputs:
-    azureSubscription:
+    ConnectedServiceNameARM: 'DCD-CNP-DEV'
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
     azurePowerShellVersion: latestVersion
