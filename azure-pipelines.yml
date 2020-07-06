@@ -10,16 +10,16 @@ steps:
   displayName: 'Apply NonProd Configuration'
   inputs:
     ConnectedServiceNameARM: 'DCD-CNP-DEV'
-    targetType: 'inline'
+    scriptType: 'inlineScript'
     azurePowerShellVersion: 'latestVersion'
     script: |
       Write-Host 'hello'
 - task: AzurePowerShell@4
   displayName: 'Apply Prod Configuration'
   inputs:
-    targetType: 'inline'
-    workingDirectory: $(Build.SourcesDirectory)
-    azurePowerShellVersion: latestVersion
+    ConnectedServiceNameARM: 'DCD-CNP-PROD'
+    scriptType: 'inlineScript'
+    azurePowerShellVersion: 'latestVersion'
     script: |
       $env = 'prod'
       cd config\$env
