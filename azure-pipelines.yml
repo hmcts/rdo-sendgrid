@@ -20,19 +20,3 @@ steps:
         New-AzResourceGroup -Name $i-$env -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
-- task: AzurePowerShell@4
-  displayName: 'Apply Prod Configuration'
-  inputs:
-    ConnectedServiceNameARM: 'DCD-CNP-PROD'
-    scriptType: 'inlineScript'
-    azurePowerShellVersion: 'latestVersion'
-    script: |
-      $env = 'prod'
-      cd config\$env
-      $config = Get-ChildItem
-      Write-Host $config
-      Foreach ($i in $config)
-      {
-        New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
-      }
