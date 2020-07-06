@@ -12,7 +12,7 @@ steps:
     ConnectedServiceNameARM: 'DCD-CNP-DEV'
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
-    azurePowerShellVersion: latestVersion
+    azurePowerShellVersion: 'latestVersion'
     script: |
       Write-Host 'hello'
 - task: AzurePowerShell@4
