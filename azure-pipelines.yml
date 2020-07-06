@@ -20,6 +20,8 @@ steps:
     script: |
       $env = 'non-prod'
       cd config
+      $tg = Get-ChildItem
+      Write-Host $tg
       cd $env
       $config = Get-ChildItem
       Write-Host $config
