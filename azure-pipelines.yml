@@ -20,7 +20,8 @@ steps:
     script: |
       $env = 'non-prod'
       cd config
-      $config = Get-ChildItem -Path *.json 
+      $config = Get-ChildItem -Path *.json
+      Write-Host $config
       Foreach ($i in $config)
       {
         New-AzResourceGroup -Name $i-$env -Location UKSouth
