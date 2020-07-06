@@ -18,7 +18,7 @@ steps:
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
     script: |
-      $env = 'non-prod'
+      $env = 'nonprod'
       cd config
       $tg = Get-ChildItem
       Write-Host $tg
