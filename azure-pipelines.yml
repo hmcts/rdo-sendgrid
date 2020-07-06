@@ -19,11 +19,8 @@ steps:
     workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'non-prod'
-      $loc = Get-Location
-      Write-Host $loc
-      $stuff = Get-ChildItem
-      Write-Host $stuff
-      $config = Get-ChildItem -Path config\$env\*.json -Recurse
+      cd config\$env
+      $config = Get-ChildItem -Path *.json 
       Foreach ($i in $config)
       {
         New-AzResourceGroup -Name $i-$env -Location UKSouth
