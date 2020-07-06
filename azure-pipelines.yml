@@ -19,6 +19,8 @@ steps:
     workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'non-prod'
+      Write-Host Get-Location
+      Write-Host Get-ChildItem
       $config = Get-ChildItem -Path config\$env\*.json -Recurse
       Foreach ($i in $config)
       {
