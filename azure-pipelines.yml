@@ -4,7 +4,7 @@ pr:
 pool:
   name: Azure Pipelines
   demands: azureps
-  vmImage: 'vs2017-win2016'
+  vmImage: 'windows-latest'
 steps:
 - task: AzurePowerShell@4
   displayName: 'Apply NonProd Configuration'
