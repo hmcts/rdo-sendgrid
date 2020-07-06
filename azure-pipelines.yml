@@ -12,6 +12,7 @@ steps:
     azureSubscription:
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
+    azurePowerShellVersion: latestVersion
     script: |
       $env = 'nonprod'
       cd config\$env
@@ -27,6 +28,7 @@ steps:
   inputs:
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
+    azurePowerShellVersion: latestVersion
     script: |
       $env = 'prod'
       cd config\$env
