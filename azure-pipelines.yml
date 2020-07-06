@@ -6,19 +6,13 @@ pool:
   demands: azureps
   vmImage: 'vs2017-win2016'
 steps:
-- task: PowerShell@2
-  displayName: 'Install PowerShell AZ'
-  inputs:
-    targetType: inline
-    script: |
-      Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force -AcceptLicense
-- task: PowerShell@2
+- task: AzurePowerShell@4
   displayName: 'Apply NonProd Configuration'
   inputs:
+    azureSubscription:
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
     script: |
-      Connect-AzAccount -Credential -ServicePrincipal -Tenant 
       $env = 'nonprod'
       cd config\$env
       $config = Get-ChildItem
@@ -28,7 +22,7 @@ steps:
         New-AzResourceGroup -Name $i-$env -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
-- task: PowerShell@2
+- task: AzurePowerShell@4
   displayName: 'Apply Prod Configuration'
   inputs:
     targetType: 'inline'
