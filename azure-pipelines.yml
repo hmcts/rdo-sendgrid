@@ -18,6 +18,7 @@ steps:
     targetType: 'inline'
     workingDirectory: $(Build.SourcesDirectory)
     script: |
+      Connect-AzAccount -Credential -ServicePrincipal -Tenant 
       $env = 'nonprod'
       cd config\$env
       $config = Get-ChildItem
