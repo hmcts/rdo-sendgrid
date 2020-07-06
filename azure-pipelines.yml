@@ -16,6 +16,7 @@ steps:
   displayName: 'Apply NonProd Configuration'
   inputs:
     targetType: 'inline'
+    workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'non-prod'
       cd $SourcesDirectory/config/$env
