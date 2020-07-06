@@ -11,7 +11,7 @@ steps:
   inputs:
     targetType: inline
     script: |
-      Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force -AcceptLicense
+      # Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force -AcceptLicense
 - task: PowerShell@2
   displayName: 'Apply NonProd Configuration'
   inputs:
