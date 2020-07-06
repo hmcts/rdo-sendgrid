@@ -20,6 +20,7 @@ steps:
     script: |
       $env = 'non-prod'
       cd config
+      Write-Host 'hello'
       $config = Get-ChildItem -Path *.json
       Write-Host $config
       Foreach ($i in $config)
