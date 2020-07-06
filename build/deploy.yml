@@ -7,7 +7,7 @@ steps:
     targetType: inline
     script: |
       $env = 'non-prod'
-      $configFiles = Get-ChildItem -Path config\$env\*.json -Recurse
+      $configFiles = Get-ChildItem -Path $Build.SourcesDirectory\config\$env\*.json -Recurse
       Foreach ($file in $policyFiles)
       {
         $parentFolder = Split-Path (Split-Path "$file.FullName" -Parent) -Leaf
