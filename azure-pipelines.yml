@@ -19,7 +19,7 @@ steps:
     workingDirectory: $(Build.SourcesDirectory)
     script: |
       $env = 'non-prod'
-      cd config\$env
+      cd config
       $config = Get-ChildItem -Path *.json 
       Foreach ($i in $config)
       {
