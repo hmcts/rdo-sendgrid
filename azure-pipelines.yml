@@ -6,12 +6,12 @@ pool:
   demands: azureps
   vmImage: 'windows-latest'
 steps:
-- task: PowerShell@2
+- task: AzureCLI@2@2
   displayName: 'Apply NonProd Configuration'
   inputs:
-    ConnectedServiceNameARM: 'DCD-CNP-DEV'
-    scriptType: 'inlineScript'
-    azurePowerShellVersion: 'latestVersion'
+    azureSubscription: 'DCD-CNP-DEV'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
     script: |
       Write-Host "Azure Auth"
       Select-AzSubscription -SubscriptionId $subscriptionId
