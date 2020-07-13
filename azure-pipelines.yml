@@ -6,7 +6,7 @@ pool:
   demands: azureps
   vmImage: 'windows-latest'
 steps:
-- task: AzureCLI@2@2
+- task: AzureCLI@2
   displayName: 'Apply NonProd Configuration'
   inputs:
     azureSubscription: 'DCD-CNP-DEV'
