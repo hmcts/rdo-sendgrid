@@ -13,6 +13,7 @@ steps:
     scriptType: 'inlineScript'
     azurePowerShellVersion: 'latestVersion'
     script: |
+      Write-Host "Azure Auth"
       Select-AzSubscription -SubscriptionId $subscriptionId
       $env = 'nonprod'
       $config = Get-ChildItem -Path config\$env\*.json
