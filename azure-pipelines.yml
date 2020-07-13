@@ -7,12 +7,17 @@ pool:
   vmImage: 'windows-latest'
 steps:
 - task: CopyFiles@2
-  displayName: Copy provisioning scripts
+  displayName: Copy SendGrid Config
   inputs:
     SourceFolder: config/nonprod
     TargetFolder: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
+- task: CopyFiles@2
+  displayName: Copy ARM Templates
+  inputs:
+    SourceFolder: arm
+    TargetFolder: '$(build.artifactstagingdirectory)/sendgrid-nonprod'    
 - task: PublishBuildArtifacts@1
-  displayName: Publish infrastructure artifacts
+  displayName: Publish NonProd Artifacts
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
     ArtifactName: sendgrid-nonprod
