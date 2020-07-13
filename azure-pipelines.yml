@@ -6,6 +6,16 @@ pool:
   demands: azureps
   vmImage: 'windows-latest'
 steps:
+- task: CopyFiles@2
+  displayName: Copy provisioning scripts
+  inputs:
+    SourceFolder: config/nonprod
+    TargetFolder: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
+- task: PublishBuildArtifacts@1
+  displayName: Publish infrastructure artifacts
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
+    ArtifactName: sendgrid-nonprod
 - task: AzureCLI@2
   displayName: 'Apply NonProd Configuration'
   inputs:
