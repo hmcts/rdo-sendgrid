@@ -6,7 +6,7 @@ pool:
   demands: azureps
   vmImage: 'windows-latest'
 steps:
-- task: AzurePowerShell@4
+- task: PowerShell@2
   displayName: 'Apply NonProd Configuration'
   inputs:
     ConnectedServiceNameARM: 'DCD-CNP-DEV'
