@@ -18,6 +18,7 @@ steps:
       $config = Get-ChildItem -Path config\$env\*.json
       Foreach ($i in $config)
       {
+        Write-Host $i
         New-AzResourceGroup -Name $i-$env -Location UKSouth
         New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
       }
