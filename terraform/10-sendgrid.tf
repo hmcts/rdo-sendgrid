@@ -29,6 +29,8 @@ resource "azurerm_template_deployment" "sendgrid" {
     company               = "HMCTS"
     website               = "https://www.gov.uk/"
   }
+
+  deployment_mode = "incremental"
 }
 
 resource "random_password" "password" {
