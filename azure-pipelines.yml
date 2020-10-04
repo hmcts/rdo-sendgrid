@@ -10,12 +10,14 @@ parameters:
       rg: mgmt-state-store-nonprod
       location: uksouth
       storage_account: mgmtstatestorenonprod
+      container: mgmtstatestorecontainerdev
 
     - environment: prod
       serviceConnection: dcd-cnp-prod
       rg: mgmt-state-store-prod
       location: uksouth
       storage_account: mgmtstatestoreprod
+      container: mgmtstatestorecontainerprod
 
 pr:
 - Integration
@@ -49,8 +51,8 @@ stages:
               backendAzureRmResourceGroupLocation: ${{ environment.location }}
               backendAzureRmStorageAccountName: ${{ environment.storage_account }}
               backendAzureRmStorageAccountSku: Standard_LRS
-              backendAzureRmContainerName: tfstate
-              backendAzureRmKey: rdo-sendgrid/bastion-${{ environment.environment }}.tfstate
+              backendAzureRmContainerName: ${{ environment.container }}
+              backendAzureRmKey: SendGrid-${{ environment.environment }}/terraform.tfstate
 
 
           - ${{ if eq(false, parameters.deploy) }}:
@@ -59,14 +61,15 @@ stages:
               displayName: Terraform validate
               inputs:
                 command: validate
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment
 
             - task: TerraformCLI@0
               displayName: Terraform plan
               inputs:
                 command: plan
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
                 environmentServiceName: ${{ environment.serviceConnection }}
+                commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
 
           - ${{ if parameters.deploy }}:
 
@@ -74,6 +77,6 @@ stages:
               displayName: Terraform apply
               inputs:
                 command: apply
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment
                 environmentServiceName: ${{ environment.serviceConnection }}
-                commandOptions: --auto-approve
+                commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
