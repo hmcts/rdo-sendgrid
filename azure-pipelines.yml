@@ -1,3 +1,22 @@
+parameters:
+  - name: sendgridEnvironments
+    type: object
+    default:
+    - environment: nonprod
+      serviceConnection: dts-management-nonprod-intsvc
+      serviceConnection_privileged: ops-approval-gate-mgmt-envs
+      rg: dts-management-nonprod-intsvc-tfstate
+      location: uksouth
+      storage_account: tfstateb44eb47999719b6f
+
+    - environment: prod
+      serviceConnection: dts-management-prod-intsvc
+      serviceConnection_privileged: ops-approval-gate-mgmt-envs
+      rg: dts-management-prod-intsvc-tfstate
+      location: uksouth
+      storage_account: tfstate2b1afc1958670244
+
+
 pr:
 - Integration
 
@@ -5,44 +24,55 @@ pool:
   name: Azure Pipelines
   demands: azureps
   vmImage: 'windows-latest'
-steps:     
-- task: TerraformInstaller@0
-  displayName: Terraform install
-  inputs:
-    terraformVersion: $(terraformVersion)
 
-- task: TerraformCLI@0
-  displayName: Terraform initialize
-  inputs:
-    command: init
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-    backendType: azurerm
-    ensurebackend: true
-    backendServiceArm: $(serviceConnection)
-    backendAzureRmResourceGroupName: $(rg)
-    backendAzureRmResourceGroupLocation: $(location)
-    backendAzureRmStorageAccountName: $(storage_account)
-    backendAzureRmStorageAccountSku: Standard_LRS
-    backendAzureRmContainerName: tfstate
-    backendAzureRmKey: rdo-sendgrid/$(environment).tfstate
+  stages:
+    - ${{ each environment in parameters.sendgridEnvironments }}:
 
-- task: TerraformCLI@0
-  displayName: Terraform validate
-  inputs:
-    command: validate
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
+      jobs:
+        - job: TestAndPlan
 
-- task: TerraformCLI@0
-  displayName: Terraform plan
-  inputs:
-    command: plan
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
-    environmentServiceName: $(serviceConnection)
+          steps:     
+          - task: TerraformInstaller@0
+            displayName: Terraform install
+            inputs:
+              terraformVersion: ${{ parameters.terraformVersion }}
 
-- task: TerraformCLI@0
-  displayName: Terraform apply
-  inputs:
-    command: apply
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/
-    environmentServiceName: $(serviceConnection)
-    commandOptions: --auto-approve
+          - task: TerraformCLI@0
+            displayName: Terraform initialize
+            inputs:
+              command: init
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              backendType: azurerm
+              ensurebackend: true
+              backendServiceArm: ${{ parameters.serviceConnection }}
+              backendAzureRmResourceGroupName: ${{ parameters.rg }}
+              backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+              backendAzureRmStorageAccountName: ${{ parameters.storage_account }}
+              backendAzureRmStorageAccountSku: Standard_LRS
+              backendAzureRmContainerName: tfstate
+              backendAzureRmKey: rdo-bastion/bastion-${{ parameters.environment }}.tfstate
+
+          - ${{ if eq(false, parameters.deploy) }}:
+
+            - task: TerraformCLI@0
+              displayName: Terraform validate
+              inputs:
+                command: validate
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+
+            - task: TerraformCLI@0
+              displayName: Terraform plan
+              inputs:
+                command: plan
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+                environmentServiceName: ${{ parameters.serviceConnection }}
+
+          - ${{ if parameters.deploy }}:
+
+            - task: TerraformCLI@0
+              displayName: Terraform apply
+              inputs:
+                command: apply
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+                environmentServiceName: ${{ parameters.serviceConnection }}
+                commandOptions: --auto-approve
