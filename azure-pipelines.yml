@@ -26,27 +26,23 @@ steps:
     backendAzureRmContainerName: tfstate
     backendAzureRmKey: rdo-sendgrid/$(environment).tfstate
 
-- ${{ if eq(false, parameters.deploy) }}:
+- task: TerraformCLI@0
+  displayName: Terraform validate
+  inputs:
+    command: validate
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
 
-  - task: TerraformCLI@0
-    displayName: Terraform validate
-    inputs:
-      command: validate
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
+- task: TerraformCLI@0
+  displayName: Terraform plan
+  inputs:
+    command: plan
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
+    environmentServiceName: $(serviceConnection)
 
-  - task: TerraformCLI@0
-    displayName: Terraform plan
-    inputs:
-      command: plan
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
-      environmentServiceName: $(serviceConnection)
-
-- ${{ if parameters.deploy }}:
-
-  - task: TerraformCLI@0
-    displayName: Terraform apply
-    inputs:
-      command: apply
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/
-      environmentServiceName: $(serviceConnection)
-      commandOptions: --auto-approve
+- task: TerraformCLI@0
+  displayName: Terraform apply
+  inputs:
+    command: apply
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/
+    environmentServiceName: $(serviceConnection)
+    commandOptions: --auto-approve
