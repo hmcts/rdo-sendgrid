@@ -47,13 +47,13 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               backendType: azurerm
               ensurebackend: true
-              backendServiceArm: ${{ parameters.serviceConnection }}
-              backendAzureRmResourceGroupName: ${{ parameters.rg }}
-              backendAzureRmResourceGroupLocation: ${{ parameters.location }}
-              backendAzureRmStorageAccountName: ${{ parameters.storage_account }}
+              backendServiceArm: ${{ environment.serviceConnection }}
+              backendAzureRmResourceGroupName: ${{ environment.rg }}
+              backendAzureRmResourceGroupLocation: ${{ environment.location }}
+              backendAzureRmStorageAccountName: ${{ environment.storage_account }}
               backendAzureRmStorageAccountSku: Standard_LRS
               backendAzureRmContainerName: tfstate
-              backendAzureRmKey: rdo-bastion/bastion-${{ parameters.environment }}.tfstate
+              backendAzureRmKey: rdo-bastion/bastion-${{ environment.environment }}.tfstate
 
           - ${{ if eq(false, parameters.deploy) }}:
 
@@ -61,14 +61,14 @@ stages:
               displayName: Terraform validate
               inputs:
                 command: validate
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
 
             - task: TerraformCLI@0
               displayName: Terraform plan
               inputs:
                 command: plan
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
-                environmentServiceName: ${{ parameters.serviceConnection }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
+                environmentServiceName: ${{ environment.serviceConnection }}
 
           - ${{ if parameters.deploy }}:
 
@@ -76,6 +76,6 @@ stages:
               displayName: Terraform apply
               inputs:
                 command: apply
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
-                environmentServiceName: ${{ parameters.serviceConnection }}
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ environment.environment }}
+                environmentServiceName: ${{ environment.serviceConnection }}
                 commandOptions: --auto-approve
