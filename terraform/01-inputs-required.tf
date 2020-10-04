@@ -1,6 +1,6 @@
 variable "configs" {
   description = "SendGrid Configuration"
-  type        = list
+  type        = map
 }
 
 variable "env" {

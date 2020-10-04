@@ -1,7 +1,6 @@
 env = "prod"
-configs = [
-    {
-        name="test",
+configs = {
+    "test" = {
         plan_name="free"
     }
-]
+}
