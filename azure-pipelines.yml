@@ -54,29 +54,25 @@ stages:
               backendAzureRmContainerName: ${{ environment.container }}
               backendAzureRmKey: SendGrid-${{ environment.environment }}/terraform.tfstate
 
+          - task: TerraformCLI@0
+            displayName: Terraform validate
+            inputs:
+              command: validate
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          - ${{ if eq(false, parameters.deploy) }}:
+          - task: TerraformCLI@0
+            displayName: Terraform plan
+            inputs:
+              command: plan
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              environmentServiceName: ${{ environment.serviceConnection }}
+              commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
 
-            - task: TerraformCLI@0
-              displayName: Terraform validate
-              inputs:
-                command: validate
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment
 
-            - task: TerraformCLI@0
-              displayName: Terraform plan
-              inputs:
-                command: plan
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-                environmentServiceName: ${{ environment.serviceConnection }}
-                commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
-
-          - ${{ if parameters.deploy }}:
-
-            - task: TerraformCLI@0
-              displayName: Terraform apply
-              inputs:
-                command: apply
-                workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment
-                environmentServiceName: ${{ environment.serviceConnection }}
-                commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
+          - task: TerraformCLI@0
+            displayName: Terraform apply
+            inputs:
+              command: apply
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              environmentServiceName: ${{ environment.serviceConnection }}
+              commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
