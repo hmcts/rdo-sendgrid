@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 resource "azurerm_template_deployment" "private_endpoint" {
   for_each = var.configs
 
