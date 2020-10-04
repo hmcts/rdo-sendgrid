@@ -53,7 +53,7 @@ stages:
               backendAzureRmStorageAccountName: ${{ environment.storage_account }}
               backendAzureRmStorageAccountSku: Standard_LRS
               backendAzureRmContainerName: tfstate
-              backendAzureRmKey: rdo-bastion/bastion-${{ environment.environment }}.tfstate
+              backendAzureRmKey: rdo-sendgrid/bastion-${{ environment.environment }}.tfstate
 
           - ${{ if eq(false, parameters.deploy) }}:
 
