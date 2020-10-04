@@ -5,36 +5,48 @@ pool:
   name: Azure Pipelines
   demands: azureps
   vmImage: 'windows-latest'
-steps:
-- task: CopyFiles@2
-  displayName: Copy SendGrid Config
+steps:     
+- task: TerraformInstaller@0
+  displayName: Terraform install
   inputs:
-    SourceFolder: config/nonprod
-    TargetFolder: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
-- task: CopyFiles@2
-  displayName: Copy ARM Templates
+    terraformVersion: ${{ parameters.terraformVersion }}
+
+- task: TerraformCLI@0
+  displayName: Terraform initialize
   inputs:
-    SourceFolder: arm
-    TargetFolder: '$(build.artifactstagingdirectory)/sendgrid-nonprod'    
-- task: PublishBuildArtifacts@1
-  displayName: Publish NonProd Artifacts
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)/sendgrid-nonprod'
-    ArtifactName: sendgrid-nonprod
-- task: AzureCLI@2
-  displayName: 'Apply NonProd Configuration'
-  inputs:
-    azureSubscription: 'DCD-CNP-DEV'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    script: |
-      Write-Host "Azure Auth"
-      Select-AzSubscription -SubscriptionId $subscriptionId
-      $env = 'nonprod'
-      $config = Get-ChildItem -Path config\$env\*.json
-      Foreach ($i in $config)
-      {
-        Write-Host $i
-        New-AzResourceGroup -Name $i-$env -Location UKSouth
-        New-AzResourceGroupDeployment -ResourceGroupName $i-$env -TemplateFile arm\template.json 
-      }
+    command: init
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+    backendType: azurerm
+    ensurebackend: true
+    backendServiceArm: ${{ parameters.serviceConnection }}
+    backendAzureRmResourceGroupName: ${{ parameters.rg }}
+    backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+    backendAzureRmStorageAccountName: ${{ parameters.storage_account }}
+    backendAzureRmStorageAccountSku: Standard_LRS
+    backendAzureRmContainerName: tfstate
+    backendAzureRmKey: rdo-bastion/bastion-${{ parameters.environment }}.tfstate
+
+- ${{ if eq(false, parameters.deploy) }}:
+
+  - task: TerraformCLI@0
+    displayName: Terraform validate
+    inputs:
+      command: validate
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+
+  - task: TerraformCLI@0
+    displayName: Terraform plan
+    inputs:
+      command: plan
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+      environmentServiceName: ${{ parameters.serviceConnection }}
+
+- ${{ if parameters.deploy }}:
+
+  - task: TerraformCLI@0
+    displayName: Terraform apply
+    inputs:
+      command: apply
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+      environmentServiceName: ${{ parameters.serviceConnection }}
+      commandOptions: --auto-approve
