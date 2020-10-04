@@ -17,7 +17,7 @@ resource "azurerm_template_deployment" "sendgrid" {
   parameters = {
     name                  = each.key
     location              = azurerm_resource_group.rg.location
-    tags                  = ""
+    tags                  = map()
     plan_name             = each.value.plan_name
     plan_publisher        = "Sendgrid"
     plan_product          = "sendgrid_azure"
@@ -30,8 +30,6 @@ resource "azurerm_template_deployment" "sendgrid" {
     company               = "HMCTS"
     website               = "https://www.gov.uk/"
   }
-
-  deployment_mode = "Incremental"
 }
 
 resource "random_password" "password" {
