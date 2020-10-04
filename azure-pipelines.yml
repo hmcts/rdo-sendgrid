@@ -9,7 +9,7 @@ steps:
 - task: TerraformInstaller@0
   displayName: Terraform install
   inputs:
-    terraformVersion: ${{ parameters.terraformVersion }}
+    terraformVersion: $(terraformVersion)
 
 - task: TerraformCLI@0
   displayName: Terraform initialize
@@ -18,13 +18,13 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
     backendType: azurerm
     ensurebackend: true
-    backendServiceArm: ${{ parameters.serviceConnection }}
-    backendAzureRmResourceGroupName: ${{ parameters.rg }}
-    backendAzureRmResourceGroupLocation: ${{ parameters.location }}
-    backendAzureRmStorageAccountName: ${{ parameters.storage_account }}
+    backendServiceArm: $(serviceConnection)
+    backendAzureRmResourceGroupName: $(rg)
+    backendAzureRmResourceGroupLocation: $(location)
+    backendAzureRmStorageAccountName: $(storage_account)
     backendAzureRmStorageAccountSku: Standard_LRS
     backendAzureRmContainerName: tfstate
-    backendAzureRmKey: rdo-bastion/bastion-${{ parameters.environment }}.tfstate
+    backendAzureRmKey: rdo-sendgrid/$(environment).tfstate
 
 - ${{ if eq(false, parameters.deploy) }}:
 
@@ -32,14 +32,14 @@ steps:
     displayName: Terraform validate
     inputs:
       command: validate
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
 
   - task: TerraformCLI@0
     displayName: Terraform plan
     inputs:
       command: plan
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
-      environmentServiceName: ${{ parameters.serviceConnection }}
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/
+      environmentServiceName: $(serviceConnection)
 
 - ${{ if parameters.deploy }}:
 
@@ -47,6 +47,6 @@ steps:
     displayName: Terraform apply
     inputs:
       command: apply
-      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/${{ parameters.environment }}
-      environmentServiceName: ${{ parameters.serviceConnection }}
+      workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environment/
+      environmentServiceName: $(serviceConnection)
       commandOptions: --auto-approve
