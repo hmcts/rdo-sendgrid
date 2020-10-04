@@ -2,7 +2,7 @@ resource "azurerm_template_deployment" "private_endpoint" {
   for_each = var.configs
 
   name                = each.name-sendgrid
-  resource_group_name = "SendGrid-"var.env
+  resource_group_name = "${"SendGrid-"}${var.env}"
 
   template_body = file("sendgrid_template.json")
 
