@@ -1,4 +1,7 @@
 parameters:
+  - name: terraformVersion
+    type: string
+    default: "0.13.4"
   - name: sendgridEnvironments
     type: object
     default:
