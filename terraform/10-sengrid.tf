@@ -16,18 +16,18 @@ resource "azurerm_template_deployment" "private_endpoint" {
     plan_promotion_code   = ""
     password              = random_password.password
     acceptMarketingEmails = 0
-    email                 = Zulfikar.bharmal@hmcts.net
+    email                 = "Zulfikar.bharmal@hmcts.net"
     firstName             = Zulfikar
     lastName              = Bharmal
     company               = HMCTS
-    website               = https://www.gov.uk/
+    website               = "https://www.gov.uk/"
   }
 
   deployment_mode = "Incremental"
 }
 
 resource "random_password" "password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "_%@"
 }
