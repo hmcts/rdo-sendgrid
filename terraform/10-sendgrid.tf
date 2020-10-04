@@ -11,11 +11,10 @@ resource "azurerm_template_deployment" "sendgrid" {
 
   name                = "${each.key}-sendgrid"
   resource_group_name = azurerm_resource_group.rg.name
-
   template_body = file("sendgrid_template.json")
 
   parameters = {
-    name                  = each.key
+    name                  = "${each.key}-${var.env}"
     location              = azurerm_resource_group.rg.location
     plan_name             = each.value.plan_name
     plan_publisher        = "Sendgrid"
