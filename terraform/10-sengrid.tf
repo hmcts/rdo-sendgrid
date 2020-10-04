@@ -1,16 +1,16 @@
 resource "azurerm_template_deployment" "private_endpoint" {
   for_each = var.configs
 
-  name                = each.name-sendgrid
+  name                = "${each.value.name}-sendgrid"
   resource_group_name = "${"SendGrid-"}${var.env}"
 
   template_body = file("sendgrid_template.json")
 
   parameters = {
-    name                  = each.name
+    name                  = each.value.name
     location              = "uksouth"
     tags                  = ""
-    plan_name             = each.plan_name
+    plan_name             = each.value.plan_name
     plan_publisher        = "Sendgrid"
     plan_product          = "sendgrid_azure"
     plan_promotion_code   = ""
