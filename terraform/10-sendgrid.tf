@@ -78,6 +78,40 @@ resource "azurerm_key_vault" "keyvault" {
     ]
   }
 
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = "300e771f-856c-45cc-b899-40d78281e9c1"
+
+    key_permissions = [
+      "get", "create", "list"
+    ]
+
+    secret_permissions = [
+      "get", "set", "list"
+    ]
+
+    storage_permissions = [
+      "get", "set", "list"
+    ]
+  }
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = "c36eaede-a0ae-4967-8fed-0a02960b1370"
+
+    key_permissions = [
+      "get", "create", "list"
+    ]
+
+    secret_permissions = [
+      "get", "set", "list"
+    ]
+
+    storage_permissions = [
+      "get", "set", "list"
+    ]
+  }
+
   network_acls {
     default_action = "Allow"
     bypass         = "AzureServices"
