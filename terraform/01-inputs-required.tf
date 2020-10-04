@@ -1,6 +1,6 @@
 variable "configs" {
   description = "SendGrid Configuration"
-  type        = list(map(string))
+  type        = list()
 }
 
 variable "env" {
