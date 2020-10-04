@@ -1,5 +1,5 @@
 env=nonprod
-config= [
+configs= [
     {
         name="test",
         plan_name="free"

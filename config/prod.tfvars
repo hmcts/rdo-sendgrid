@@ -1,5 +1,5 @@
 env=prod
-config= [
+configs= [
     {
         name="test",
         plan_name="free"
