@@ -1,16 +1,22 @@
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_template_deployment" "private_endpoint" {
+resource "azurerm_resource_group" "rg" {
+  name     = "${"SendGrid-"}${var.env}"
+  location = "uksouth"
+}
+
+
+resource "azurerm_template_deployment" "sendgrid" {
   for_each = var.configs
 
   name                = "${each.key}-sendgrid"
-  resource_group_name = "${"SendGrid-"}${var.env}"
+  resource_group_name = azurerm_resource_group.rg.name
 
   template_body = file("sendgrid_template.json")
 
   parameters = {
     name                  = each.key
-    location              = "uksouth"
+    location              = azurerm_resource_group.rg.location
     tags                  = ""
     plan_name             = each.value.plan_name
     plan_publisher        = "Sendgrid"
@@ -47,12 +53,12 @@ resource "azurerm_key_vault_secret" "secret" {
 
 
 resource "azurerm_key_vault" "keyvault" {
-  name                       = "${"sendgrid"}${var.env}"
-  location                   = "uksouth"
-  resource_group_name        = "${"SendGrid-"}${var.env}"
-  tenant_id                  = data.azurerm_client_config.current.tenant_id
-  soft_delete_enabled        = true
-  purge_protection_enabled   = true
+  name                     = "${"sendgrid"}${var.env}"
+  location                 = "uksouth"
+  resource_group_name      = azurerm_resource_group.rg.name
+  tenant_id                = data.azurerm_client_config.current.tenant_id
+  soft_delete_enabled      = true
+  purge_protection_enabled = true
 
   sku_name = "standard"
 
