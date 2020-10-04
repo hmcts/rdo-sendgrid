@@ -17,7 +17,7 @@ resource "azurerm_template_deployment" "sendgrid" {
   parameters = {
     name                  = each.key
     location              = azurerm_resource_group.rg.location
-    tags                  = map()
+    tags                  = {}
     plan_name             = each.value.plan_name
     plan_publisher        = "Sendgrid"
     plan_product          = "sendgrid_azure"
