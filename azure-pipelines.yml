@@ -8,16 +8,16 @@ parameters:
     - environment: nonprod
       serviceConnection: dts-management-nonprod-intsvc
       serviceConnection_privileged: ops-approval-gate-mgmt-envs
-      rg: dts-management-nonprod-intsvc-tfstate
+      rg: mgmt-state-store-nonprod
       location: uksouth
-      storage_account: tfstateb44eb47999719b6f
+      storage_account: mgmtstatestorenonprod
 
     - environment: prod
       serviceConnection: dts-management-prod-intsvc
       serviceConnection_privileged: ops-approval-gate-mgmt-envs
-      rg: dts-management-prod-intsvc-tfstate
+      rg: mgmt-state-store-prod
       location: uksouth
-      storage_account: tfstate2b1afc1958670244
+      storage_account: mgmtstatestoreprod
 
 
 pr:
