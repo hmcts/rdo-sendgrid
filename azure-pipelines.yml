@@ -25,12 +25,12 @@ pool:
   demands: azureps
   vmImage: 'windows-latest'
 
+
 stages:
   - ${{ each environment in parameters.sendgridEnvironments }}:
-
+    - stage: ${{ environment.environment }}
     jobs:
       - job: TestAndPlan
-
         steps:     
         - task: TerraformInstaller@0
           displayName: Terraform install
