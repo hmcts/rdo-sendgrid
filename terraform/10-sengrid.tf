@@ -11,15 +11,15 @@ resource "azurerm_template_deployment" "private_endpoint" {
     location              = "uksouth"
     tags                  = ""
     plan_name             = each.plan_name
-    plan_publisher        = Sendgrid
-    plan_product          = sendgrid_azure
+    plan_publisher        = "Sendgrid"
+    plan_product          = "sendgrid_azure"
     plan_promotion_code   = ""
     password              = random_password.password
     acceptMarketingEmails = 0
     email                 = "Zulfikar.bharmal@hmcts.net"
-    firstName             = Zulfikar
-    lastName              = Bharmal
-    company               = HMCTS
+    firstName             = "Zulfikar"
+    lastName              = "Bharmal"
+    company               = "HMCTS"
     website               = "https://www.gov.uk/"
   }
 
