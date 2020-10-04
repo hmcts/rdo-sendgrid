@@ -60,13 +60,13 @@ stages:
               command: validate
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          # - task: TerraformCLI@0
-          #   displayName: Terraform plan
-          #   inputs:
-          #     command: plan
-          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-          #     environmentServiceName: ${{ environment.serviceConnection }}
-          #     commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
+          - task: TerraformCLI@0
+            displayName: Terraform plan
+            inputs:
+              command: plan
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              environmentServiceName: ${{ environment.serviceConnection }}
+              #commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
 
 
           - task: TerraformCLI@0
