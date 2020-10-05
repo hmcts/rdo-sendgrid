@@ -4,6 +4,6 @@ configs = {
         plan_name="free"
     },
     "fpl" = {
-        plan_name="free"
+        plan_name="bronze"
     }
 }
