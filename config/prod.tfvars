@@ -6,4 +6,7 @@ configs = {
     "fpl" = {
         plan_name="bronze"
     }
+    "DBReporting" = {
+        plan_name="silver"
+    }
 }
