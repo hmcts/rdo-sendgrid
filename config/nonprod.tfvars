@@ -6,4 +6,7 @@ configs = {
     "fpl" = {
         plan_name="bronze"
     }
+    "sscs" = {
+        plan_name="bronze"
+    }
 }
