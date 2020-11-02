@@ -19,6 +19,9 @@ parameters:
       storage_account: mgmtstatestoreprod
       container: mgmtstatestorecontainerprod
 
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+
 pr:
 - Integration
 
@@ -71,6 +74,7 @@ stages:
 
           - task: TerraformCLI@0
             displayName: Terraform apply
+            condition: and(succeeded(), eq(variables.isMain, true))
             inputs:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
