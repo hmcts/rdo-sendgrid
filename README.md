@@ -39,7 +39,7 @@ e.g.
 
 It is setup using the 'Domain Authentication' feature in the SendGrid portal.
 
-*The next steps require 'Contributor' access to the Azure resource*
+**The next steps require 'Contributor' access to the Azure resource**
 
 To get to the SendGrid portal go to the account resource in Azure, i.e. sscs-nonprod and click 'Sender Identity', this will automatically log you in to the SendGrid portal.
 
