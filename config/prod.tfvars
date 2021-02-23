@@ -12,4 +12,7 @@ configs = {
     "sscs2" = {
         plan_name="bronze"
     }
+    "cmc2" = {
+        plan_name="bronze"
+    }
 }
