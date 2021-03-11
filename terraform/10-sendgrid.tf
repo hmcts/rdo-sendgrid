@@ -128,6 +128,24 @@ resource "azurerm_key_vault" "keyvault" {
     ]
   }
 
+    access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = "57128619-2c09-4b9b-80b8-322ceff22141"
+
+    key_permissions = [
+      "get", "create", "list"
+    ]
+
+    secret_permissions = [
+      "get", "set", "list", "delete", "recover"
+    ]
+
+    storage_permissions = [
+      "get", "set", "list"
+    ]
+  }
+
+
   network_acls {
     default_action = "Allow"
     bypass         = "AzureServices"
