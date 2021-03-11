@@ -11,7 +11,7 @@ resource "azurerm_template_deployment" "sendgrid" {
 
   name                = "${each.key}-sendgrid"
   resource_group_name = azurerm_resource_group.rg.name
-  template_body = file("sendgrid_template.json")
+  template_body       = file("sendgrid_template.json")
 
   parameters = {
     name                  = "${each.key}-${var.env}"
@@ -110,7 +110,7 @@ resource "azurerm_key_vault" "keyvault" {
       "get", "set", "list"
     ]
   }
-  
+
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = "ca6d5085-485a-417d-8480-c3cefa29df31"
@@ -128,7 +128,7 @@ resource "azurerm_key_vault" "keyvault" {
     ]
   }
 
-    access_policy {
+  access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = "57128619-2c09-4b9b-80b8-322ceff22141"
 
