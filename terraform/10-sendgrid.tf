@@ -22,7 +22,7 @@ resource "azurerm_template_deployment" "sendgrid" {
     plan_promotion_code   = ""
     password              = random_password.password[each.key].result
     acceptMarketingEmails = 0
-    email                 = "DTSPlatformOps@HMCTS.NET"
+    email                 = "DTSPlatformOperations@justice.gov.uk"
     firstName             = "Platform"
     lastName              = "Operations"
     company               = "HMCTS"
