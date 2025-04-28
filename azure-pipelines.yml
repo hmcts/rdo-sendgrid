@@ -1,7 +1,7 @@
 parameters:
   - name: terraformVersion
     type: string
-    default: "0.13.4"
+    default: "1.9.0"
   - name: sendgridEnvironments
     type: object
     default:
@@ -11,6 +11,13 @@ parameters:
       location: uksouth
       storage_account: mgmtstatestorenonprod
       container: mgmtstatestorecontainerdev
+
+    - environment: atlassian
+      serviceConnection: dcd-cnp-prod
+      rg: mgmt-state-store-prod
+      location: uksouth
+      storage_account: mgmtstatestoreprod
+      container: mgmtstatestorecontainerprod
 
     - environment: prod
       serviceConnection: dcd-cnp-prod
