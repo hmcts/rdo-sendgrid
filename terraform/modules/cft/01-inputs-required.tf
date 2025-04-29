@@ -1,17 +1,17 @@
 variable "configs" {
-  description = "SendGrid Configuration"
+  description = "Map of configurations for each of the SendGrid sub-accounts"
   type = map(object({
     plan_name       = string
   }))
 }
 
 variable "env" {
-  description = "SendGrid Configuration"
+  description = "Current environment (nonprod/prod)"
   type        = string
 }
 
 variable "keyvault_policies" {
-  description = "Key Vault policies for SendGrid"
+  description = "A set of Key Vault policies to set on the Keyvault associated with SendGrid secrets"
   type = map(object({
     object_id          = string
     certificate_permissions  = list(string)
