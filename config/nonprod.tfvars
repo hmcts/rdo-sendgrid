@@ -13,7 +13,7 @@ cft_subaccount_configs = {
   }
 }
 
-# map keys are sorted to ensure provider API consistently returns the same order
+# Map keys are sorted to ensure provider API consistently returns the same order
 # so that no superficial changes are shown on the plan when using dynamic block
 cft_keyvault_policies = {
      "01" = {
@@ -30,8 +30,8 @@ cft_keyvault_policies = {
     },
     "10" = {
         object_id = "b2a1773c-a5ae-48b5-b5fa-95b0e05eee05"
-        certificate_permissions = null
-        key_permissions = null
+        certificate_permissions = []
+        key_permissions = []
 
         secret_permissions = [
         "List", "Get"
