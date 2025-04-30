@@ -40,4 +40,5 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
   })
 
   deployment_mode = "Incremental"
+  tags = var.tags
 }

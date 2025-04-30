@@ -3,6 +3,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "rg" {
   name     = "${"SendGrid-"}${var.env}"
   location = "uksouth"
+  tags = var.tags
 }
 
 resource "azurerm_resource_group_template_deployment" "sendgrid" {
@@ -57,6 +58,7 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
   })
 
   deployment_mode = "Incremental"
+  tags = var.tags
 }
 
 resource "random_password" "password" {
@@ -73,6 +75,7 @@ resource "azurerm_key_vault_secret" "secret" {
   name         = "${each.key}-password"
   value        = random_password.password[each.key].result
   key_vault_id = azurerm_key_vault.keyvault.id
+  tags = var.tags
 }
 
 resource "azurerm_key_vault" "keyvault" {
