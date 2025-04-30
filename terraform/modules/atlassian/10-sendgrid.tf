@@ -23,7 +23,7 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
       value = "AzurePortal"
     }
     tags = {
-      value = var.tags
+      value = { for k, v in var.tags : k => v if k != "startupMode" }
     }
   })
 
