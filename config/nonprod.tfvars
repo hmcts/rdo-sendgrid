@@ -1,15 +1,16 @@
 env             = "nonprod"
-subscription_id = "1c4f0704-a29e-403d-b719-b90c34ef14c9" # DCD-CNP-DEV 
+subscription_id = "1c4f0704-a29e-403d-b719-b90c34ef14c9" # DCD-CNP-DEV
+product         = "core-infra"
+businessArea    = "Cross-Cutting"
 
 cft_subaccount_configs = {
   "cmc" = {
-    plan_name = "free"
+    plan_name       = "essentials-50k"
+    application_tag = "civil-money-claims"
   },
   "fpl" = {
-    plan_name = "bronze"
-  },
-  "sscs" = {
-    plan_name = "bronze"
+    plan_name       = "essentials-50k"
+    application_tag = "family-public-law"
   }
 }
 
@@ -164,5 +165,3 @@ cft_keyvault_policies = {
   }
 }
 
-product      = "core-infra"
-businessArea = "Cross-Cutting"

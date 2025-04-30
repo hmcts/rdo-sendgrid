@@ -1,7 +1,7 @@
 resource "azurerm_resource_group_template_deployment" "sendgrid" {
   name                = var.sendgrid_deployment_tpl_name
   resource_group_name = var.resource_group_name
-  template_content    = file("./modules/atlassian/sendgrid_saas_tpl.json")
+  template_content    = file("./templates/sendgrid_saas.json")
 
   parameters_content = jsonencode({
     name = {
@@ -10,29 +10,17 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
     planId = {
       value = var.sendgrid_plan_name
     }
-    offerId = {
-      value = var.sendgrid_offer_id
-    }
-    publisherId = {
-      value = "sendgrid"
-    }
-    quantity = {
-      value = 1
-    }
     termId = {
       value = var.sendgrid_saas_term_id
     }
     azureSubscriptionId = {
       value = var.subscription_id
     }
-    publisherTestEnvironment = {
-      value = ""
-    }
     autoRenew = {
       value = true
     }
-    location = {
-      value = "global"
+    storeFront = {
+      value = "AzurePortal"
     }
     tags = {
       value = var.tags

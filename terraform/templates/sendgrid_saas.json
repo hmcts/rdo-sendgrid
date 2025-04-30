@@ -8,28 +8,16 @@
         "planId": {
             "type": "String"
         },
-        "offerId": {
-            "type": "String"
-        },
-        "publisherId": {
-            "type": "String"
-        },
-        "quantity": {
-            "type": "Int"
-        },
         "termId": {
             "type": "String"
         },
         "azureSubscriptionId": {
             "type": "String"
         },
-        "publisherTestEnvironment": {
-            "type": "String"
-        },
         "autoRenew": {
             "type": "Bool"
         },
-        "location": {
+        "storeFront": {
             "type": "String"
         },
         "tags": {
@@ -41,22 +29,25 @@
             "type": "Microsoft.SaaS/resources",
             "apiVersion": "2018-03-01-beta",
             "name": "[parameters('name')]",
-            "location": "[parameters('location')]",
+            "location": "global",
             "tags": "[parameters('tags')]",
             "properties": {
-                "saasResourceName": "[parameters('name')]",
-                "publisherId": "[parameters('publisherId')]",
-                "SKUId": "[parameters('planId')]",
-                "offerId": "[parameters('offerId')]",
-                "quantity": "[parameters('quantity')]",
-                "termId": "[parameters('termId')]",
+                "purchaserEmail": "DTSPlatformOps@HMCTS.NET",
+                "beneficiaryEmail": "DTSPlatformOps@HMCTS.NET",
                 "autoRenew": "[parameters('autoRenew')]",
+                "market": "GB",
+                "offerName": "Twilio SendGrid",
+                "saasResourceName": "[parameters('name')]",
+                "publisherId": "sendgrid",
+                "publisherName": "SendGrid",
+                "SKUId": "[parameters('planId')]",
+                "offerId": "tsg-saas-offer",
+                "termId": "[parameters('termId')]",
                 "paymentChannelType": "SubscriptionDelegated",
                 "paymentChannelMetadata": {
                     "AzureSubscriptionId": "[parameters('azureSubscriptionId')]"
                 },
-                "publisherTestEnvironment": "[parameters('publisherTestEnvironment')]",
-                "storeFront": "AzurePortal"
+                "storeFront": "[parameters('storeFront')]"
             }
         }
     ]

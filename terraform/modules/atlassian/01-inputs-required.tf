@@ -23,11 +23,6 @@ variable "sendgrid_plan_name" {
   type        = string
 }
 
-variable "sendgrid_offer_id" {
-  description = "SendGrid offer ID - this is the offer ID that is used in the marketplace"
-  type        = string
-}
-
 variable "sendgrid_saas_term_id" {
   description = "SendGrid SaaS term ID - this is the term ID that is used in the marketplace"
   type        = string
