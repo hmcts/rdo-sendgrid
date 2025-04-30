@@ -45,7 +45,7 @@
   "resources": [
       {
           "type": "Microsoft.SaaS/resources",
-          "apiVersion": "2015-01-01",
+          "apiVersion": "2018-03-01-beta",
           "name": "[parameters('name')]",
           "location": "[parameters('location')]",
           "tags": {},

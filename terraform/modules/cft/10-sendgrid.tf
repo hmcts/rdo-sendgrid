@@ -18,7 +18,7 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
       value = "${each.key}-${var.env}"
     }
     location              = {
-      value = azurerm_resource_group.rg.location
+      value = "global"
     }
     plan_name             = {
       value = each.value.plan_name
