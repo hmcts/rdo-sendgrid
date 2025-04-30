@@ -1,153 +1,44 @@
-data "azurerm_client_config" "current" {}
-
-resource "azurerm_resource_group" "rg" {
-  name     = "${"SendGrid-"}${var.env}"
-  location = "uksouth"
+# Resource 'azurerm_template_deployment' has been replaced by 'azurerm_resource_group_template_deployment'
+# in latest azurerm provider versions and is no longer recognised.
+# To avoid delete/recreate cycle for existing sendgrid resources, import needs to be run into the new resource type
+import {
+  for_each = var.cft_subaccount_configs
+  to       = module.cft-sendgrid[0].azurerm_resource_group_template_deployment.sendgrid[each.key]
+  id       = "/subscriptions/${var.subscription_id}/resourceGroups/SendGrid-${var.env}/providers/Microsoft.Resources/deployments/${each.key}-sendgrid"
 }
 
+module "cft-sendgrid" {
+  count  = var.env == "atlassian" ? 0 : 1
+  source = "./modules/cft"
 
-resource "azurerm_template_deployment" "sendgrid" {
-  for_each = var.configs
+  env               = var.env
+  configs           = var.cft_subaccount_configs
+  keyvault_policies = var.cft_keyvault_policies
 
-  name                = "${each.key}-sendgrid"
-  resource_group_name = azurerm_resource_group.rg.name
-  template_body       = file("sendgrid_template.json")
-
-  parameters = {
-    name                  = "${each.key}-${var.env}"
-    location              = azurerm_resource_group.rg.location
-    plan_name             = each.value.plan_name
-    plan_publisher        = "Sendgrid"
-    plan_product          = "sendgrid_azure"
-    plan_promotion_code   = ""
-    password              = random_password.password[each.key].result
-    acceptMarketingEmails = 0
-    email                 = "DTSPlatformOps@HMCTS.NET"
-    firstName             = "Platform"
-    lastName              = "Operations"
-    company               = "HMCTS"
-    website               = "https://www.gov.uk/"
-  }
-
-  deployment_mode = "incremental"
+  tags = module.ctags.common_tags
 }
 
-resource "random_password" "password" {
-  for_each = var.configs
-
-  length           = 16
-  special          = true
-  override_special = "_%@"
+# Import existing SendGrid deployment template
+import {
+  for_each = var.env == "atlassian" ? [1] : []
+  to       = module.atlassian-sendgrid[0].azurerm_resource_group_template_deployment.sendgrid
+  id       = var.atlassian_sendgrid_config.existing_sendgrid_deployment_tpl_id
 }
 
+module "atlassian-sendgrid" {
+  count  = var.env == "atlassian" ? 1 : 0
+  source = "./modules/atlassian"
 
-resource "azurerm_key_vault_secret" "secret" {
-  for_each = var.configs
-
-  name         = "${each.key}-password"
-  value        = random_password.password[each.key].result
-  key_vault_id = azurerm_key_vault.keyvault.id
-}
-
-
-resource "azurerm_key_vault" "keyvault" {
-  name                     = "${"sendgrid"}${var.env}"
-  location                 = "uksouth"
-  resource_group_name      = azurerm_resource_group.rg.name
-  tenant_id                = data.azurerm_client_config.current.tenant_id
-  soft_delete_enabled      = true
-  purge_protection_enabled = true
-
-  sku_name = "standard"
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
-
-    key_permissions = [
-      "get", "create", "list"
-    ]
-
-    secret_permissions = [
-      "get", "set", "list", "delete", "recover"
-    ]
-
-    storage_permissions = [
-      "get", "set", "list"
-    ]
+  providers = {
+    azurerm = azurerm.atlassian_sendgrid
   }
+  sendgrid_deployment_tpl_name = var.atlassian_sendgrid_config.sendgrid_deployment_tpl_name
+  resource_group_name          = var.atlassian_sendgrid_config.resource_group_name
+  subscription_id              = var.subscription_id
+  sendgrid_account_name        = var.atlassian_sendgrid_config.sendgrid_account_name
+  sendgrid_plan_name           = var.atlassian_sendgrid_config.sendgrid_plan_name
+  sendgrid_offer_id            = var.atlassian_sendgrid_config.sendgrid_offer_id
+  sendgrid_saas_term_id        = var.atlassian_sendgrid_config.sendgrid_saas_term_id
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = "300e771f-856c-45cc-b899-40d78281e9c1"
-
-    key_permissions = [
-      "get", "create", "list"
-    ]
-
-    secret_permissions = [
-      "get", "set", "list"
-    ]
-
-    storage_permissions = [
-      "get", "set", "list"
-    ]
-  }
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = "c36eaede-a0ae-4967-8fed-0a02960b1370"
-
-    key_permissions = [
-      "get", "create", "list"
-    ]
-
-    secret_permissions = [
-      "get", "set", "list"
-    ]
-
-    storage_permissions = [
-      "get", "set", "list"
-    ]
-  }
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = "ca6d5085-485a-417d-8480-c3cefa29df31"
-
-    key_permissions = [
-      "get", "create", "list"
-    ]
-
-    secret_permissions = [
-      "get", "set", "list"
-    ]
-
-    storage_permissions = [
-      "get", "set", "list"
-    ]
-  }
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = "57128619-2c09-4b9b-80b8-322ceff22141"
-
-    key_permissions = [
-      "get", "create", "list"
-    ]
-
-    secret_permissions = [
-      "get", "set", "list", "delete", "recover"
-    ]
-
-    storage_permissions = [
-      "get", "set", "list"
-    ]
-  }
-
-
-  network_acls {
-    default_action = "Allow"
-    bypass         = "AzureServices"
-  }
+  tags = module.ctags.common_tags
 }
