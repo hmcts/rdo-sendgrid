@@ -23,6 +23,7 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
       value = "AzurePortal"
     }
     tags = {
+      # common module passes startupMode tag with a null value which trips up the ARM template deployment so remove that
       value = { for k, v in var.tags : k => v if k != "startupMode" }
     }
   })
