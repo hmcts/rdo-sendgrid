@@ -12,19 +12,19 @@ parameters:
       storage_account: mgmtstatestorenonprod
       container: mgmtstatestorecontainerdev
 
-    - environment: atlassian
-      serviceConnection: dcd-cnp-prod
-      rg: mgmt-state-store-prod
-      location: uksouth
-      storage_account: mgmtstatestoreprod
-      container: mgmtstatestorecontainerprod
+    # - environment: atlassian
+    #   serviceConnection: dcd-cnp-prod
+    #   rg: mgmt-state-store-prod
+    #   location: uksouth
+    #   storage_account: mgmtstatestoreprod
+    #   container: mgmtstatestorecontainerprod
 
-    - environment: prod
-      serviceConnection: dcd-cnp-prod
-      rg: mgmt-state-store-prod
-      location: uksouth
-      storage_account: mgmtstatestoreprod
-      container: mgmtstatestorecontainerprod
+    # - environment: prod
+    #   serviceConnection: dcd-cnp-prod
+    #   rg: mgmt-state-store-prod
+    #   location: uksouth
+    #   storage_account: mgmtstatestoreprod
+    #   container: mgmtstatestorecontainerprod
 
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
@@ -81,7 +81,7 @@ stages:
 
           - task: TerraformCLI@0
             displayName: Terraform apply
-            condition: and(succeeded(), eq(variables.isMain, true))
+            condition: succeeded()
             inputs:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform

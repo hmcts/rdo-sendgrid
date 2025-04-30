@@ -44,7 +44,7 @@
   },
   "resources": [
       {
-          "type": "Sendgrid.Email/accounts",
+          "type": "Microsoft.SaaS/resources",
           "apiVersion": "2015-01-01",
           "name": "[parameters('name')]",
           "location": "[parameters('location')]",
