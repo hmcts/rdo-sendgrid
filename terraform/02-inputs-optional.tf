@@ -27,7 +27,6 @@ variable "atlassian_sendgrid_config" {
     resource_group_name                 = string
     sendgrid_account_name               = string
     sendgrid_plan_name                  = string
-    sendgrid_saas_term_id               = string
   })
   default = null
 }
