@@ -3,6 +3,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "rg" {
   name     = "${"SendGrid-"}${var.env}"
   location = "uksouth"
+  tags = var.tags
 }
 
 resource "azurerm_resource_group_template_deployment" "sendgrid" {
@@ -10,53 +11,35 @@ resource "azurerm_resource_group_template_deployment" "sendgrid" {
 
   name                = "${each.key}-sendgrid"
   resource_group_name = azurerm_resource_group.rg.name
-  template_content    = file("./modules/cft/sendgrid_template.json")
+  template_content    = file("./templates/sendgrid_saas.json")
 
   parameters_content = jsonencode({
-    name                  = {
+    name = {
       value = "${each.key}-${var.env}"
     }
-    location              = {
-      value = azurerm_resource_group.rg.location
-    }
-    plan_name             = {
+    planId = {
       value = each.value.plan_name
     }
-    plan_publisher        = {
-      value = "Sendgrid"
+    termId = {
+      value = var.sendgrid_saas_term_id
     }
-    plan_product          = {
-      value = "sendgrid_azure"
+    azureSubscriptionId = {
+      value = var.subscription_id
     }
-    plan_promotion_code   = {
-      value = ""
+    autoRenew = {
+      value = true
     }
-    # Note: Even when there is no changes the provider will still show change due to SecureString being used
-    # https://github.com/hashicorp/terraform-provider-azurerm/issues/15394
-    password              = {
-      value = random_password.password[each.key].result
+    storeFront = {
+      value = "DevServiceMigration"
     }
-    acceptMarketingEmails = {
-      value = "0"
-    }
-    email                 = {
-      value = "DTSPlatformOps@HMCTS.NET"
-    }
-    firstName             = {
-      value = "Platform"
-    }
-    lastName              = {
-      value = "Operations"
-    }
-    company               = {
-      value = "HMCTS"
-    }
-    website               = {
-      value = "https://www.gov.uk/"
+    tags = {
+      # common module passes startupMode tag with a null value which trips up the ARM template deployment so remove that
+      value = merge({ for k, v in var.tags : k => v if k != "startupMode" }, { application = "${each.value.application_tag}" })
     }
   })
 
   deployment_mode = "Incremental"
+  tags = var.tags
 }
 
 resource "random_password" "password" {
@@ -73,6 +56,7 @@ resource "azurerm_key_vault_secret" "secret" {
   name         = "${each.key}-password"
   value        = random_password.password[each.key].result
   key_vault_id = azurerm_key_vault.keyvault.id
+  tags = var.tags
 }
 
 resource "azurerm_key_vault" "keyvault" {
