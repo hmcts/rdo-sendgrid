@@ -49,7 +49,7 @@ stages:
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
 
-          - task: TerraformCLI@0
+          - task: TerraformCLI@2
             displayName: Terraform initialize
             inputs:
               command: init
@@ -64,13 +64,13 @@ stages:
               backendAzureRmContainerName: ${{ environment.container }}
               backendAzureRmKey: SendGrid-${{ environment.environment }}/terraform.tfstate
 
-          - task: TerraformCLI@0
+          - task: TerraformCLI@2
             displayName: Terraform validate
             inputs:
               command: validate
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          - task: TerraformCLI@0
+          - task: TerraformCLI@2
             displayName: Terraform plan
             inputs:
               command: plan
@@ -79,7 +79,7 @@ stages:
               commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
 
 
-          - task: TerraformCLI@0
+          - task: TerraformCLI@2
             displayName: Terraform apply
             condition: and(succeeded(), eq(variables.isMain, true))
             inputs:
