@@ -1,5 +1,10 @@
 data "azurerm_client_config" "current" {}
 
+data "azurerm_user_assigned_identity" "jenkins" {
+  name                = "jenkins-${var.env}-mi"
+  resource_group_name = "managed-identities-${var.env}-rg"
+}
+
 resource "azurerm_resource_group" "rg" {
   name     = "${"SendGrid-"}${var.env}"
   location = "uksouth"
@@ -87,4 +92,52 @@ resource "azurerm_key_vault" "keyvault" {
   }
 
   tags = var.tags
+}
+
+resource "azurerm_key_vault_access_policy" "jenkins" {
+  key_vault_id = azurerm_key_vault.keyvault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_user_assigned_identity.jenkins.principal_id
+
+  certificate_permissions = [
+    "Create",
+    "Delete",
+    "DeleteIssuers",
+    "Get",
+    "GetIssuers",
+    "Import",
+    "List",
+    "ListIssuers",
+    "SetIssuers",
+    "Update",
+    "ManageContacts",
+    "ManageIssuers",
+  ]
+
+  key_permissions = [
+    "Create",
+    "List",
+    "Get",
+    "Delete",
+    "Update",
+    "Import",
+    "Backup",
+    "Restore",
+    "Decrypt",
+    "Encrypt",
+    "UnwrapKey",
+    "WrapKey",
+    "Sign",
+    "Verify",
+    "GetRotationPolicy",
+  ]
+
+  secret_permissions = [
+    "Set",
+    "List",
+    "Get",
+    "Delete",
+    "Recover",
+    "Purge",
+  ]
 }
