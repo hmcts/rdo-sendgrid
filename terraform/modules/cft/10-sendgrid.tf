@@ -1,10 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-data "azurerm_user_assigned_identity" "jenkins" {
-  name                = "jenkins-${var.env}-mi"
-  resource_group_name = "managed-identities-${var.env}-rg"
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = "${"SendGrid-"}${var.env}"
   location = "uksouth"
@@ -95,9 +90,10 @@ resource "azurerm_key_vault" "keyvault" {
 }
 
 resource "azurerm_key_vault_access_policy" "jenkins" {
+  count        = var.jenkins_object_id != "" ? 1 : 0
   key_vault_id = azurerm_key_vault.keyvault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_user_assigned_identity.jenkins.principal_id
+  object_id    = var.jenkins_object_id
 
   certificate_permissions = [
     "Create",

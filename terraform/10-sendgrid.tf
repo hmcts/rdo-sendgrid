@@ -7,6 +7,7 @@ module "cft-sendgrid" {
   keyvault_policies     = var.cft_keyvault_policies
   subscription_id       = var.subscription_id
   sendgrid_saas_term_id = var.sendgrid_saas_term_id
+  jenkins_object_id     = var.jenkins_object_id
 
   tags = module.ctags.common_tags
 }
