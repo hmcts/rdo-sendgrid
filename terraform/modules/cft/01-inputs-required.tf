@@ -36,3 +36,9 @@ variable "tags" {
   description = "Tags to be applied to the resources"
   type        = map(string)
 }
+
+variable "jenkins_object_id" {
+  description = "Object ID of the Jenkins managed identity for keyvault access. Leave empty to skip."
+  type        = string
+  default     = ""
+}

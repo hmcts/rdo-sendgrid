@@ -1,7 +1,8 @@
-env             = "nonprod"
-subscription_id = "1c4f0704-a29e-403d-b719-b90c34ef14c9" # DCD-CNP-DEV
-product         = "core-infra"
-businessArea    = "Cross-Cutting"
+env               = "nonprod"
+subscription_id   = "1c4f0704-a29e-403d-b719-b90c34ef14c9" # DCD-CNP-DEV
+product           = "core-infra"
+businessArea      = "Cross-Cutting"
+jenkins_object_id = "d4271678-056e-4a35-8388-cbec28e84916" # jenkins-dev-mi
 
 cft_subaccount_configs = {
   "cmc" = {

@@ -19,6 +19,12 @@ variable "cft_keyvault_policies" {
   default = {}
 }
 
+variable "jenkins_object_id" {
+  description = "Object ID of the Jenkins managed identity for keyvault access. Leave empty to skip."
+  type        = string
+  default     = ""
+}
+
 variable "atlassian_sendgrid_config" {
   description = "SendGrid configuration for Atlassian"
   type = object({

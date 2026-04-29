@@ -1,7 +1,8 @@
-env             = "prod"
-subscription_id = "8999dec3-0104-4a27-94ee-6588559729d1" # DCD-CNP-PROD
-product         = "core-infra"
-businessArea    = "Cross-Cutting"
+env               = "prod"
+subscription_id   = "8999dec3-0104-4a27-94ee-6588559729d1" # DCD-CNP-PROD
+product           = "core-infra"
+businessArea      = "Cross-Cutting"
+jenkins_object_id = "c860eaa0-74be-4731-8370-db94c5fdad81" # jenkins-prod-mi
 
 cft_subaccount_configs = {
   "cmc" = {
