@@ -44,7 +44,7 @@ stages:
       jobs:
         - job: TestAndPlan
           steps:     
-          - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@2
+          - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@2
             displayName: Terraform install
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
