@@ -1,8 +1,7 @@
-env               = "prod"
-subscription_id   = "8999dec3-0104-4a27-94ee-6588559729d1" # DCD-CNP-PROD
-product           = "core-infra"
-businessArea      = "Cross-Cutting"
-jenkins_object_id = "c860eaa0-74be-4731-8370-db94c5fdad81" # jenkins-prod-mi
+env             = "prod"
+subscription_id = "8999dec3-0104-4a27-94ee-6588559729d1" # DCD-CNP-PROD
+product         = "core-infra"
+businessArea    = "Cross-Cutting"
 
 cft_subaccount_configs = {
   "cmc" = {
@@ -115,6 +114,20 @@ cft_keyvault_policies = {
       "Set",
       "List"
     ]
+  },
+  "35" = {
+    # DTSPO-30107: Civil prod Terraform now runs as jenkins-prod-mi and reads
+    # hmcts-civil-api-key from sendgridprod during plan/apply.
+    # Keep this inline because this vault is managed with inline access_policy blocks.
+    object_id               = "c860eaa0-74be-4731-8370-db94c5fdad81"
+    certificate_permissions = []
+    key_permissions         = []
+
+    secret_permissions = [
+      "Get",
+      "List"
+    ]
+    storage_permissions = []
   },
   "40" = {
     object_id               = "57128619-2c09-4b9b-80b8-322ceff22141"
