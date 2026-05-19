@@ -123,6 +123,19 @@ cft_keyvault_policies = {
       "Get", "Set", "List"
     ]
   },
+  "45" = {
+    # DTSPO-30107: Civil AAT Terraform now runs as jenkins-aat-mi and reads
+    # hmcts-civil-api-key from sendgridnonprod during plan/apply.
+    object_id               = "14b22215-46e6-48a9-8681-e8cefe66236a"
+    certificate_permissions = []
+    key_permissions         = []
+
+    secret_permissions = [
+      "Get", "List"
+    ]
+
+    storage_permissions = []
+  },
   "50" = {
     object_id               = "57128619-2c09-4b9b-80b8-322ceff22141"
     certificate_permissions = []
@@ -165,4 +178,3 @@ cft_keyvault_policies = {
     storage_permissions = []
   }
 }
-
