@@ -136,6 +136,27 @@ cft_keyvault_policies = {
 
     storage_permissions = []
   },
+  "46" = {
+    object_id               = "75141362-5195-42fb-83f1-69225bb5250b"
+    certificate_permissions = []
+    key_permissions         = []
+    secret_permissions      = ["Get", "List"]
+    storage_permissions     = []
+  },
+  "47" = {
+    object_id               = "22349922-a968-43b8-b5a5-1da0e57504c2"
+    certificate_permissions = []
+    key_permissions         = []
+    secret_permissions      = ["Get", "List"]
+    storage_permissions     = []
+  },
+  "48" = {
+    object_id               = "531d44e7-5fe6-40cb-a390-ae1f36a23878"
+    certificate_permissions = []
+    key_permissions         = []
+    secret_permissions      = ["Get", "List"]
+    storage_permissions     = []
+  },
   "50" = {
     object_id               = "57128619-2c09-4b9b-80b8-322ceff22141"
     certificate_permissions = []
