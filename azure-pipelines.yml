@@ -70,7 +70,7 @@ stages:
               command: validate
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          ${{ if eq(environment.environment, 'atlassian') }}:
+          - ${{ if eq(environment.environment, 'atlassian') }}:
             - task: TerraformCLI@2
               displayName: Terraform Atlassian Destroy plan
               inputs:
@@ -88,7 +88,7 @@ stages:
                 environmentServiceName: ${{ environment.serviceConnection }}
                 commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
 
-          ${{ if ne(environment.environment, 'atlassian') }}:
+          - ${{ if ne(environment.environment, 'atlassian') }}:
             - task: TerraformCLI@2
               displayName: Terraform plan
               inputs:
