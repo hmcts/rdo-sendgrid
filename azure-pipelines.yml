@@ -99,7 +99,7 @@ stages:
 
             - task: TerraformCLI@2
               displayName: Terraform apply
-              condition: and(and(succeeded(), eq(variables.isMain, true)), not(eq(environment.environment, 'atlassian')))
+              condition: and(succeeded(), eq(variables.isMain, true))
               inputs:
                 command: apply
                 workingDirectory: $(System.DefaultWorkingDirectory)/terraform
