@@ -70,20 +70,38 @@ stages:
               command: validate
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          - task: TerraformCLI@2
-            displayName: Terraform plan
-            inputs:
-              command: plan
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ environment.serviceConnection }}
-              commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
+          ${{ if eq(environment.environment, 'atlassian') }}:
+            - task: TerraformCLI@2
+              displayName: Terraform Atlassian Destroy plan
+              inputs:
+                command: plan
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+                environmentServiceName: ${{ environment.serviceConnection }}
+                commandOptions: -destroy -var-file=..\config\${{ environment.environment }}.tfvars
 
+            - task: TerraformCLI@2
+              displayName: Terraform Atlassian Destroy apply
+              condition: and(succeeded(), eq(variables.isMain, true))
+              inputs:
+                command: destroy
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+                environmentServiceName: ${{ environment.serviceConnection }}
+                commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
 
-          - task: TerraformCLI@2
-            displayName: Terraform apply
-            condition: and(succeeded(), eq(variables.isMain, true))
-            inputs:
-              command: apply
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ environment.serviceConnection }}
-              commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
+          ${{ if ne(environment.environment, 'atlassian') }}:
+            - task: TerraformCLI@2
+              displayName: Terraform plan
+              inputs:
+                command: plan
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+                environmentServiceName: ${{ environment.serviceConnection }}
+                commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
+
+            - task: TerraformCLI@2
+              displayName: Terraform apply
+              condition: and(and(succeeded(), eq(variables.isMain, true)), not(eq(environment.environment, 'atlassian')))
+              inputs:
+                command: apply
+                workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+                environmentServiceName: ${{ environment.serviceConnection }}
+                commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
